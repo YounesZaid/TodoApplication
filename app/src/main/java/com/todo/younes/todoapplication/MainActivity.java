@@ -3,6 +3,7 @@ package com.todo.younes.todoapplication;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
@@ -25,6 +26,8 @@ public class MainActivity extends AppCompatActivity {
         items = new ArrayList<String>();
         itemsAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, items);
         lvItems.setAdapter(itemsAdapter);
+
+        setupListViewListener();
     }
 
     public void onAddItem(View v) {
@@ -33,6 +36,19 @@ public class MainActivity extends AppCompatActivity {
         String itemText = etNewItem.getText().toString();
         itemsAdapter.add(itemText);
         etNewItem.setText("");
+    }
+
+    private void setupListViewListener() {
+        lvItems.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> adapterView, View view, int pos, long id) {
+
+                items.remove(pos);
+                itemsAdapter.notifyDataSetChanged();
+
+                return true;
+            }
+        });
     }
 
     /*@Override
